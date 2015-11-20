@@ -31,4 +31,5 @@
 
 # Others
 *.depend
+*.layout
 bin/
