@@ -7,7 +7,6 @@ Database& Database::Add(Student& student)
 {
 	Student* tmp = _student;
 	_student = (Student*) calloc(sizeof(Student), _studentNum + 1);
-
 	bool inserIn = false;
 	for(int i = 0; i < _studentNum ; ++i)
 		if(student.Name().compare( tmp[i].Name() ) < 0 && !inserIn )
@@ -16,7 +15,7 @@ Database& Database::Add(Student& student)
 			inserIn = true;
 		}
 		else
-			_student[i] = tmp[i - inserIn? 1:0];
+			_student[i] = tmp[i - (inserIn? 1:0)];
 
 	_student[_studentNum] = inserIn? tmp[_studentNum - 1] : student;
 
@@ -90,6 +89,8 @@ void Database::showAll()
 {
     static_cast<const Database &>(*this).showAll();
 }
+
+
 
 std::ostream & operator << (std::ostream &os, const Database &rhs)
 {
