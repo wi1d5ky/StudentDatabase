@@ -5,6 +5,7 @@
 #include <string>
 
 constexpr int scoreNum = 3;
+constexpr int maxNameLength = 30;
 
 class Student
 {
