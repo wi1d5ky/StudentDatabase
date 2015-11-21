@@ -1,6 +1,7 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
+#include <iostream>
 #include <string>
 
 constexpr int scoreNum = 3;
@@ -9,28 +10,6 @@ class Student
 {
 public:
 	Student();
-	void setName(std::string name)
-	{
-		_name = name;
-	};
-	void setGender(char gender)
-	{
-		_gender = gender;
-	};
-	void setAge(int age)
-	{
-		_age = age;
-	};
-	void setScores(float score, int seq)
-	{
-		_score[seq] = score;
-	};
-	void setScores(float scores[])
-	{
-		for(int i = 0; i < scoreNum; ++i)
-			_score[i] = scores[i];
-	};
-	void Print();
 	const std::string Name()
 	{
 		return _name;
@@ -39,9 +18,19 @@ public:
 	{
 		return _name;
 	};
+
+	Student& setName(std::string name);
+	Student& setGender(char gender);
+	Student& setAge(int age);
+	Student& setScores(float score, int seq);
+	Student& setScores(float scores[]);
+	void Print();
+	void Print() const;
+	friend std::ostream & operator << (std::ostream &os, const Student &rhs);
+
 private:
 	std::string _name = "";
-	char _gender = 'M';
+	char _gender = 'N';
 	int _age = 0;
 	float _score[scoreNum] = {0};
 };
