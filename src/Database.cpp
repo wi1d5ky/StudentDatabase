@@ -87,10 +87,18 @@ void Database::showAll() const
 
 void Database::showAll()
 {
-    static_cast<const Database &>(*this).showAll();
+	static_cast<const Database &>(*this).showAll();
 }
 
-
+void Database::exportTo(FILE* fp)
+{
+	if(_studentNum == 0)
+	{
+		fprintf(fp, "<Empty>\n");
+	}
+	for(int i = 0; i < _studentNum ; ++i)
+		_student[i].Print(fp);
+}
 
 std::ostream & operator << (std::ostream &os, const Database &rhs)
 {

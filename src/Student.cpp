@@ -1,5 +1,6 @@
 #include "Student.h"
 #include <iostream>
+#include <iomanip>
 
 Student::Student()
 {
@@ -40,13 +41,33 @@ void Student::Print() const
 {
 	std::cout<< _name << " " << _gender << " (" << _age << ")";
 	for(int i = 0; i < scoreNum ; ++i)
-		std::cout << " " << _score[i];
+		std::cout << " " << std::fixed << std::setprecision(2) << _score[i];
 	std::cout << std::endl;
 }
 
 void Student::Print()
 {
 	static_cast<const Student &>(*this).Print();
+}
+
+bool Student::Print(FILE* fp) const
+{
+	if(fp == nullptr)
+	{
+		std::cout << "Export Failed." << std::endl;
+		return false;
+	}
+
+	fprintf(fp, "%s %c (%d)", _name.c_str(), _gender, _age);
+	for(int i = 0; i < scoreNum ; ++i)
+		fprintf(fp, " %.2f", _score[i]);
+	fprintf(fp, "\n");
+	return true;
+}
+
+bool Student::Print(FILE* fp)
+{
+	return static_cast<const Student &>(*this).Print(fp);
 }
 
 std::ostream & operator << (std::ostream &os, const Student &rhs)

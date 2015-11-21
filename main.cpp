@@ -28,9 +28,9 @@ int main()
 	for(int i = 0 ; i < scoreNum ; ++i)
 		s3.setScores( 99, i);
 	for(int i = 0 ; i < scoreNum ; ++i)
-		s4.setScores( 98 , i);
+		s4.setScores( 98.5 , i);
 	for(int i = 0 ; i < scoreNum ; ++i)
-		s5.setScores( 97 , i);
+		s5.setScores( 97.9 , i);
 
 	cout << "s  is "<< s;
 	cout << "s2 is "<< s2;
@@ -49,6 +49,12 @@ int main()
 	cout << endl << "[=== TEST Database = {Add} =]" << endl << endl;
 	d << s2 << s3 << s4 << s << s5;
 	cout << d;
+
+	/* ----------------- */
+	cout << endl << "[=== TEST Database = {Ept} =]" << endl << endl;
+	FILE* fp = fopen("export.txt", "w");
+	d.exportTo(fp);
+	fclose(fp);
 
 	/* ----------------- */
 

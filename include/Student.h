@@ -26,6 +26,9 @@ public:
 	Student& setScores(float scores[]);
 	void Print();
 	void Print() const;
+	bool Print(FILE* fp);
+	bool Print(FILE* fp) const;
+
 	friend std::ostream & operator << (std::ostream &os, const Student &rhs);
 
 private:
