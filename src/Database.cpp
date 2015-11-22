@@ -58,6 +58,11 @@ void Database::print()
 
 void Database::exportTo(FILE* fp) const
 {
+	if(fp == nullptr)
+	{
+		std::cout << "Export Failed." << std::endl;
+		return;
+	}
 	if(_recordNum == 0)
 		fprintf(fp, "<Empty>\n");
 	for(int i = 0; i < _recordNum ; ++i)
@@ -67,23 +72,13 @@ void Database::exportTo(FILE* fp) const
 
 void Database::importFrom(FILE* fp)
 {
-	drop();
-
-	Student newborn;
-	char name[maxNameLength], gender = 'N';
-	int age = 0;
-
-	while(fscanf(fp, "%s %c (%d) ", name, &gender, &age) != EOF)
+	if(fp == nullptr)
 	{
-		newborn.setName(name).setGender(gender).setAge(age);
-		for(int i = 0 ; i< scoreNum ; ++i)
-		{
-			float score;
-			fscanf(fp, " %f", &score);
-			newborn.setScores(score, i);
-		}
-		add(newborn);
+		std::cout << "Import Failed." << std::endl;
+		return;
 	}
+	drop();
+	obtain(fp, *this);
 }
 
 std::ostream & operator << (std::ostream &os, const Database &rhs)
