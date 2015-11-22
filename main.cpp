@@ -122,16 +122,23 @@ void exportFrom(const Database database)
 	cout << "Note that the original data in the file will be lost after writing to the file. Are you sure that you want to continue? (y/N)...>";
 
 	char confirm = getchar();
+	getchar();
 	if (confirm == 'y' || confirm == 'Y')
 	{
 		string filename;
 		cout << endl << "Please input the name of the file...>";
 		cin >> filename;
-		cout << endl;
+		cout << endl << "Data will be exported to " << filename << " ..." << endl << endl;
 
 		FILE* fp = fopen(filename.c_str(), "w");
-		database.exportTo(fp);
-		fclose(fp);
+		if(fp != nullptr)
+		{
+			database.exportTo(fp);
+			fclose(fp);
+			cout << "Done." << endl << endl;
+		}
+		else
+			cout << "Export ERROR." << endl << endl;
 	}
 	else
 		cout << "Export aborted." << endl << endl;

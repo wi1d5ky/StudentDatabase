@@ -4,36 +4,36 @@
 #include <iostream>
 #include <string>
 
-class Student;
 constexpr int studentMaxNum = 100;
+class Student;
 
 class Database
 {
 public:
 	Database();
+
 	const int studentNum()
 	{
 		return static_cast<const Database &>(*this).studentNum();
 	};
 	const int studentNum() const
 	{
-		return _studentNum;
+		return _recordNum;
 	};
-	Database& Add(Student student);
-	Database& operator << (Student student);
-	const Database recover(std::string name);
-	const Database recover(Student student);
-	Database& Del(std::string name);
-	Database& Del(Student student);
-	Database& Drop();
-	void showAll();
-	void showAll() const;
-	void exportTo(FILE* fp) const;
+	Database& add(const Student student);
+	Database& operator << (const Student student);
+	const Database recover(std::string name) const;
+	void print();
+	void print() const;
 	void importFrom(FILE* fp);
-	friend std::ostream & operator << (std::ostream &os, const Database &rhs);
+	void exportTo(FILE* fp) const;
+	friend std::ostream& operator << (std::ostream &os, const Database &rhs);
+	Database& del(const std::string name);
+	Database& drop();
+
 private:
-	Student* _student;
-	int _studentNum = 0;
+	Student* _table = nullptr;
+	int _recordNum = 0;
 };
 
 #endif // DATABASE_H
