@@ -1,10 +1,16 @@
 #include <iostream>
+#include <cstdlib>
 #include "Student.h"
 #include "Database.h"
 
 using namespace std;
 
 constexpr int featureNum = 6; // incl. exit
+
+inline void pause() {
+    printf("Press Enter key to continue...");
+    fgetc(stdin);
+}
 
 int showMenu();
 void addRecordTo(Database& database);
@@ -43,12 +49,14 @@ int main()
 			cout << "ERROR! Please input 1 ~ " << featureNum << "." << endl << endl;
 			break;
 		}
+		pause();
 	}
 	return 0;
 }
 
 int showMenu()
 {
+	system("clear");
 	string functions[] =
 	{
 		"Add a record",
@@ -68,7 +76,13 @@ int showMenu()
 	cin >> choice;
 	getchar();	// Eat the enter
 
-	cout << "\n\n\n==============\n\n\n";		// Should clean the scream
+	#ifdef _WIN32
+	system("cls");
+	#endif
+
+	#ifdef __linux__
+	system("clear");
+	#endif
 
 	return choice;
 }
@@ -92,6 +106,7 @@ void addRecordTo(Database& database)
 	cout << scoreNum << " Scores: ";
 	for(int i = 0 ; i< scoreNum ; ++i)
 		cin >> scores[i];
+	getchar();
 
 	database << newborn.setName(name).setGender(gender).setAge(age).setScores(scores);
 
@@ -103,6 +118,7 @@ void searchIn(Database database)
 	cout << "Please input the name of the student...>";
 	char name[maxNameLength];
 	cin >> name;
+	getchar();
 	cout << endl;
 
 	const Database searchResult = database.recover(name);
@@ -122,12 +138,14 @@ void exportFrom(const Database database)
 	cout << "Note that the original data in the file will be lost after writing to the file. Are you sure that you want to continue? (y/N)...>";
 
 	char confirm = getchar();
-	getchar();
+	if(confirm != '\n')
+		getchar();
 	if (confirm == 'y' || confirm == 'Y')
 	{
 		string filename;
 		cout << endl << "Please input the name of the file...>";
 		cin >> filename;
+		getchar();
 		cout << endl << "Data will be exported to " << filename << " ..." << endl << endl;
 
 		FILE* fp = fopen(filename.c_str(), "w");
@@ -141,7 +159,7 @@ void exportFrom(const Database database)
 			cout << "Export ERROR." << endl << endl;
 	}
 	else
-		cout << "Export aborted." << endl << endl;
+		cout << endl << "Export aborted." << endl << endl;
 }
 
 void importAs(Database& database)
@@ -150,11 +168,14 @@ void importAs(Database& database)
 	cout << "Note that current data in the program will be lost after reading. Are you sure that you want to continue? (y/N)...>";
 
 	char confirm = getchar();
+	if(confirm != '\n')
+		getchar();
 	if (confirm == 'y' || confirm == 'Y')
 	{
 		string filename;
 		cout << endl << "Please input the name of the file...>";
 		cin >> filename;
+		getchar();
 		cout << endl;
 
 		FILE* fp = fopen(filename.c_str(), "r");
@@ -162,5 +183,5 @@ void importAs(Database& database)
 		fclose(fp);
 	}
 	else
-		cout << "Import aborted." << endl << endl;
+		cout << endl << "Import aborted." << endl << endl;
 }
