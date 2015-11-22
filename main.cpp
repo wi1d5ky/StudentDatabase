@@ -9,7 +9,17 @@ constexpr int featureNum = 6; // incl. exit
 
 inline void pause() {
     printf("Press Enter key to continue...");
-    fgetc(stdin);
+    getchar();
+}
+
+inline void clean() {
+    #ifdef _WIN32
+	system("cls");
+	#endif
+
+	#ifdef __linux__
+	system("clear");
+	#endif
 }
 
 int showMenu();
@@ -56,7 +66,7 @@ int main()
 
 int showMenu()
 {
-	system("clear");
+	clean();
 	string functions[] =
 	{
 		"Add a record",
@@ -76,13 +86,7 @@ int showMenu()
 	cin >> choice;
 	getchar();	// Eat the enter
 
-	#ifdef _WIN32
-	system("cls");
-	#endif
-
-	#ifdef __linux__
-	system("clear");
-	#endif
+	clean();
 
 	return choice;
 }

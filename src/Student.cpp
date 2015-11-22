@@ -1,6 +1,7 @@
 #include "Student.h"
 #include <iomanip>
 #include <Database.h>
+#include <cstring>
 
 Student::Student()
 {
@@ -77,6 +78,8 @@ void obtain(FILE* fp, Database& database)
 
 	while(fscanf(fp, "%s %c (%d) ", name, &(newborn._gender), &(newborn._age)) != EOF)
 	{
+		if(strcmp(name, "<Empty>") == 0)
+			break;
 		newborn.setName(name);
 		for(int i = 0 ; i< scoreNum ; ++i)
 			fscanf(fp, " %f", &(newborn._score[i]));
