@@ -1,32 +1,27 @@
 #include "Student.h"
+#include "Database.h"
 #include <iomanip>
-#include <Database.h>
+#include <cstdio>
 #include <cstring>
 
-Student::Student()
-{
-	setName("[NO NAME]").setAge(0).setGender('N');
-	for(int i = 0 ; i < scoreNum ; ++i)
-		setScores(0, i);
-};
 Student& Student::setName(std::string name)
 {
-	_name = name;
+	name_ = name;
 	return *this;
 };
 Student& Student::setAge(int age)
 {
-	_age = age;
+	age_ = age;
 	return *this;
 };
 Student& Student::setGender(char gender)
 {
-	_gender = gender;
+	gender_ = gender;
 	return *this;
 };
 Student& Student::setScores(float score, int seq)
 {
-	_score[seq] = score;
+	score_[seq] = score;
 	return *this;
 };
 Student& Student::setScores(float scores[])
@@ -36,17 +31,12 @@ Student& Student::setScores(float scores[])
 	return *this;
 };
 
-void Student::Print() const
+void Student::print() const
 {
-	Print(stdout);
+	exportTo(stdout);
 }
 
-void Student::Print()
-{
-	static_cast<const Student &>(*this).Print();
-}
-
-void Student::Print(FILE* fp) const
+void Student::exportTo(FILE* fp) const
 {
 	if(fp == nullptr)
 	{
@@ -54,20 +44,15 @@ void Student::Print(FILE* fp) const
 		return;
 	}
 
-	fprintf(fp, "%s %c (%d)", _name.c_str(), _gender, _age);
+	fprintf(fp, "%s %c (%d)", name_.c_str(), gender_, age_);
 	for(int i = 0; i < scoreNum ; ++i)
-		fprintf(fp, " %.2f", _score[i]);
+		fprintf(fp, " %.2f", score_[i]);
 	fprintf(fp, "\n");
-}
-
-void Student::Print(FILE* fp)
-{
-	return static_cast<const Student &>(*this).Print(fp);
 }
 
 std::ostream & operator << (std::ostream &os, const Student &rhs)
 {
-	rhs.Print();
+	rhs.print();
 	return os;
 }
 
@@ -76,13 +61,13 @@ void obtain(FILE* fp, Database& database)
 	Student newborn;
 	char name[maxNameLength] = {};
 
-	while(fscanf(fp, "%s %c (%d) ", name, &(newborn._gender), &(newborn._age)) != EOF)
+	while(fscanf(fp, "%s %c (%d) ", name, &(newborn.gender_), &(newborn.age_)) != EOF)
 	{
 		if(strcmp(name, "<Empty>") == 0)
 			break;
 		newborn.setName(name);
 		for(int i = 0 ; i< scoreNum ; ++i)
-			fscanf(fp, " %f", &(newborn._score[i]));
+			fscanf(fp, " %f", &(newborn.score_[i]));
 		database.add(newborn);
 	}
 }

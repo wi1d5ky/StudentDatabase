@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdio>
 #include <cstdlib>
 #include "Student.h"
 #include "Database.h"
@@ -7,19 +8,27 @@ using namespace std;
 
 constexpr int featureNum = 6; // incl. exit
 
-inline void pause() {
-    printf("Press Enter key to continue...");
-    getchar();
+inline void pause()
+{
+#ifdef _WIN32
+	system("PAUSE");
+#endif
+
+#ifdef __linux
+	cout << "Press ENTER to continue...";
+	getchar();
+#endif
 }
 
-inline void clean() {
-    #ifdef _WIN32
+inline void clean()
+{
+#ifdef _WIN32
 	system("cls");
-	#endif
+#endif
 
-	#ifdef __linux__
+#ifdef __linux
 	system("clear");
-	#endif
+#endif
 }
 
 int showMenu();
@@ -94,7 +103,7 @@ int showMenu()
 void addRecordTo(Database& database)
 {
 	Student newborn;
-	char name[maxNameLength];
+	string name;
 	char gender = 'N';
 	int age = 0;
 	float scores[scoreNum];
@@ -111,7 +120,6 @@ void addRecordTo(Database& database)
 	for(int i = 0 ; i< scoreNum ; ++i)
 		cin >> scores[i];
 	getchar();
-
 	database << newborn.setName(name).setGender(gender).setAge(age).setScores(scores);
 
 	cout << endl << "Done!" << endl << endl;

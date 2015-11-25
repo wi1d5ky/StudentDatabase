@@ -12,15 +12,14 @@ class Database;
 class Student
 {
 public:
-	Student();
 
 	const std::string Name()
 	{
-		return _name;
+		return name_;
 	};
 	const std::string Name() const
 	{
-		return _name;
+		return name_;
 	};
 
 	Student& setName(std::string name);
@@ -29,19 +28,17 @@ public:
 	Student& setScores(float score, int seq);
 	Student& setScores(float scores[]);
 
-	void Print();
-	void Print() const;
-	void Print(FILE* fp);
-	void Print(FILE* fp) const;
+	void print() const;
+	void exportTo(FILE* fp) const;
 
 	friend void obtain(FILE* fp, Database& database);
 	friend std::ostream & operator << (std::ostream &os, const Student &rhs);
 
 private:
-	std::string _name = "[NO NAME]";
-	char _gender = 'N';
-	int _age = 0;
-	float _score[scoreNum] = {0};
+	std::string name_ = "[NO NAME]";
+	char gender_ = 'N';
+	int age_ = 0;
+	float score_[scoreNum] = {0};
 };
 
 void obtain(FILE* fp, Database& database);
